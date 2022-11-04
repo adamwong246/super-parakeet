@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 
+// import "../style.scss";
+
 // https://stackoverflow.com/a/46181/614612
 const validateEmail = (email) => {
   return email.match(
     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   );
 };
-
 
 export default function LoginPage() {
   const [state, setState] = useState<{
@@ -46,7 +47,7 @@ export default function LoginPage() {
           }} />
 
           {
-            state.emailError && <p>Something isn’t right. Please double check your email format.</p>
+            state.emailError && <p className="error">Something isn’t right. Please double check your email format.</p>
           }
 
           <input type="password" value={state.password} onChange={(e) => {
@@ -58,7 +59,7 @@ export default function LoginPage() {
           }} />
 
           {
-            state.credentialError && <p>You entered an incorrect email, password, or both.</p>
+            state.credentialError && <p className="error">You entered an incorrect email, password, or both.</p>
           }
 
           <br />
@@ -80,12 +81,15 @@ export default function LoginPage() {
             if (state.password === "password" && state.email === "alex@rockpapercoin.com") {
               setState({
                 ...state,
-                page: 'home'
+                page: 'home',
+                credentialError: false,
+                emailError: false
               })
             } else {
               setState({
                 ...state,
-                credentialError: true
+                credentialError: true,
+                emailError: false
               })
             }
 

@@ -1,0 +1,26 @@
+body {
+  font-family: 'SF Pro Text', 'SF Pro Icons', 'Helvetica Neue', 'Helvetica',
+    'Arial', sans-serif;
+  padding: 20px 20px 60px;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+textarea,
+select,
+input,
+button {
+  outline: none;
+}
+
+input {
+  border: 3px solid green;
+}
+
+input:focus {
+  border: 3px solid red;
+}
+
+.error {
+  color: red;
+}
