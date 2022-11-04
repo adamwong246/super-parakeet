@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": false,
+    "module": "esnext",
+    "target": "es2017",
+    "allowJs": true,
+    "jsx": "react",
+    "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "strictNullChecks": true
+  },
+  "include": [
+    "src/**/*"
+  ]
+}

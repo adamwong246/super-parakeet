@@ -1,0 +1,40 @@
+{
+  "name": "super-parakeet",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:adamwong246/super-parakeet.git",
+  "author": "adam wong <adamwong246@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "yarn webpack serve -c webpack.config.js",
+    "build": "yarn webpack -c webpack.config.js"
+  },
+  "dependencies": {
+    "assert": "^2.0.0",
+    "buffer": "^6.0.3",
+    "chai": "^4.3.6",
+    "classy-decorator": "^1.0.4",
+    "crypto-browserify": "^3.12.0",
+    "css-loader": "^6.7.1",
+    "eslint": "^8.26.0",
+    "html-webpack-plugin": "^5.5.0",
+    "https-browserify": "^1.0.0",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-redux": "^8.0.4",
+    "style-loader": "^3.3.1",
+    "ts-loader": "^9.3.1",
+    "typescript": "4.8.2",
+    "webpack": "^5.74.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.19.6",
+    "@types/react": "^18.0.21",
+    "@types/react-dom": "^18.0.6",
+    "@typescript-eslint/eslint-plugin": "^5.41.0",
+    "@typescript-eslint/parser": "^5.41.0",
+    "babel-loader": "^8.2.5",
+    "eslint-plugin-react": "^7.31.10",
+    "webpack-cli": "^4.10.0"
+  }
+}
