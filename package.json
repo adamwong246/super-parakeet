@@ -6,8 +6,9 @@
   "author": "adam wong <adamwong246@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "yarn webpack serve -c webpack.config.js",
-    "build": "yarn webpack -c webpack.config.js"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
   },
   "dependencies": {
     "assert": "^2.0.0",
@@ -19,8 +20,9 @@
     "eslint": "^8.26.0",
     "html-webpack-plugin": "^5.5.0",
     "https-browserify": "^1.0.0",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
     "react-redux": "^8.0.4",
     "style-loader": "^3.3.1",
     "ts-loader": "^9.3.1",
