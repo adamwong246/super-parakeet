@@ -1,109 +1,55 @@
-import React, { useState } from "react";
+import React from "react";
+import { Provider, useSelector } from "react-redux";
 
-// import "../style.scss";
+import core from "../app";
 
-// https://stackoverflow.com/a/46181/614612
-const validateEmail = (email) => {
-  return email.match(
-    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-  );
+const selector = core.select.loginPageSelection;
+const actions = core.app.actions;
+const store = core.store;
+
+export type ILoginPageError = 'invalidEmail' | `credentialFail` | void;
+
+export type ILoginPageSelection = {
+  password: string;
+  email: string;
+  error: ILoginPageError;
+  disableSubmit: boolean;
 };
 
-export default function LoginPage() {
-  const [state, setState] = useState<{
-    password: string;
-    email: string;
-    page: 'login' | 'home';
-    credentialError: boolean;
-    emailError: boolean;
-  }>({
-    password: "password",
-    email: "example@mail.com",
-    page: 'login',
-    credentialError: false,
-    emailError: false
-  });
+function LoginPage() {
 
+  const selection = useSelector(selector);
 
   return <div>
+    <h2>Welcome back!</h2>
+    <p>Sign in and get to it.</p>
 
+    <form>
+      <input type="email" value={selection.email} onChange={(e) => store.dispatch(actions.setEmail(e.target.value))} />
 
-    {/* <pre>{JSON.stringify(state)}</pre> */}
+      <p>
+        {selection.error === 'invalidEmail' && "Something isn’t right. Please double check your email format"}
+      </p>
 
-    {
-      state.page === "login" &&
-      <div>
+      <br />
 
-        <h2>Welcome back!</h2>
-        <p>Sign in and get to it.</p>
+      <input type="password" value={selection.password} onChange={(e) => store.dispatch(actions.setPassword(e.target.value))} />
 
-        <form>
-          <input type="email" value={state.email} onChange={(e) => {
-            setState({
-              ...state,
-              email: e.target.value,
-              credentialError: false
-            })
-          }} />
+      <p>
+        {selection.error === 'credentialFail' && "You entered an incorrect email, password, or both."}
+      </p>
 
-          {
-            state.emailError && <p className="error">Something isn’t right. Please double check your email format.</p>
-          }
+      <br />
 
-          <input type="password" value={state.password} onChange={(e) => {
-            setState({
-              ...state,
-              password: e.target.value,
-              credentialError: false
-            })
-          }} />
+      <button disabled={selection.disableSubmit} onClick={(event) => { event.preventDefault(); }} >Sign In</button>
 
-          {
-            state.credentialError && <p className="error">You entered an incorrect email, password, or both.</p>
-          }
-
-          <br />
-
-          <button disabled={state.password === "" || state.email === ""} onClick={(event) => {
-
-            event.preventDefault();
-
-            const isValidEmail = validateEmail(state.email);
-
-            if (!isValidEmail) {
-              setState({
-                ...state,
-                emailError: true
-              });
-              return;
-            }
-
-            if (state.password === "password" && state.email === "alex@rockpapercoin.com") {
-              setState({
-                ...state,
-                page: 'home',
-                credentialError: false,
-                emailError: false
-              })
-            } else {
-              setState({
-                ...state,
-                credentialError: true,
-                emailError: false
-              })
-            }
-
-          }} >Sign In</button>
-        </form>
-      </div>
-    }
-
-    {
-      state.page === "home" &&
-      <div>
-        Welcome to your home pages, {state.email}
-      </div>
-    }
+    </form>
 
   </div>
+}
+
+export default function () {
+  return <Provider store={store}>
+    <LoginPage />
+  </Provider>
 }

@@ -8,9 +8,11 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "nodemon ./dist/test.bundle.js; yarn webpack --watch -c test.webpack.config.js"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.8.6",
     "assert": "^2.0.0",
     "buffer": "^6.0.3",
     "chai": "^4.3.6",
@@ -21,6 +23,7 @@
     "html-webpack-plugin": "^5.5.0",
     "https-browserify": "^1.0.0",
     "next": "latest",
+    "nodemon": "^2.0.20",
     "react": "latest",
     "react-dom": "latest",
     "react-redux": "^8.0.4",
