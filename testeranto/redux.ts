@@ -1,26 +1,11 @@
 
-import { createStore, Reducer, Store, AnyAction, PreloadedState } from "redux";
+import { createStore, Store, AnyAction, PreloadedState } from "redux";
+import { TesterantoSuite } from './index';
 
 export class Suite<
-  IState,
-  IReducer extends Reducer<IStore, AnyAction>,
   IStore extends Store<IState, AnyAction>,
-> {
-  name: string;
-  givens: Given<IState, IStore>[];
-  reducer: IReducer;
-  constructor(name: string, givens: Given<IState, IStore>[], reducer: IReducer) {
-    this.name = name;
-    this.givens = givens;
-    this.reducer = reducer;
-  }
-
-  run() {
-    console.log("\nSuite:", this.name)
-    this.givens.forEach((g) => {
-      g.run(this.reducer);
-    })
-  }
+  IState,
+> extends TesterantoSuite<IState, IStore> {
 }
 
 export class Given<

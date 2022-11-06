@@ -2,117 +2,85 @@
 import { ActionCreatorWithoutPayload, ActionCreatorWithPayload, AnyAction, PreloadedState, Reducer, Selector, Store } from "@reduxjs/toolkit";
 import { createStore } from "redux";
 
+import { TesterantoGiven, TesterantoSuite, TesterantoThen, TesterantoWhen } from "./index";
+
 type IActionCreate = ActionCreatorWithoutPayload<string> | ActionCreatorWithPayload<any, string>;
 
 export class Suite<
-  IState,
-  IReducer extends Reducer<IState, AnyAction>,
-  IStore extends Store<IState, AnyAction>,
-  ISelected
-> {
-  name: string;
-  reducer: IReducer;
-  givens: Given<IState, IStore, ISelected>[];
-  constructor(
-    name: string,
-    reducer: IReducer,
-    givens: Given<IState, IStore, ISelected>[],
-
-  ) {
-    this.name = name;
-    this.reducer = reducer;
-    this.givens = givens;
-  }
-
-  run() {
-    console.log("\nSuite:", this.name)
-    this.givens.forEach((g) => {
-      g.run(this.reducer);
-    })
-  }
+  IStore,
+  ISelected,
+> extends TesterantoSuite<IStore, ISelected> {
 }
 
 export class Given<
   IState,
   IStore extends Store<IState, AnyAction>,
+  ISelected,
+> extends TesterantoGiven<
+  IStore,
   ISelected
 > {
-  name: string;
-  whens: When<IState, IStore>[];
-  thens: Then<ISelected, IStore>[];
-  initialValues: PreloadedState<IState>;
-  feature: string;
   constructor(
     name: string,
     whens: When<IState, IStore>[],
-    thens: Then<ISelected, IStore>[],
+    thens: Then<IState, ISelected, IStore>[],
+    feature: string,
     initialValues: PreloadedState<IState>,
-    feature: string
   ) {
-    this.name = name;
-    this.whens = whens;
-    this.thens = thens;
+    super(name, whens, thens, feature);
     this.initialValues = initialValues;
-    this.feature = feature;
   }
 
-  run(reducer: Reducer) {
-    console.log(`\n - ${this.feature} - \n\nGiven: ${this.name}`)
-    const store = createStore<IState, any, any, any>(reducer, this.initialValues);
+  initialValues: PreloadedState<IState>;
 
-    this.whens.forEach((when) => {
-      when.run(store);
-    });
-
-    this.thens.forEach((then) => {
-      then.run(store);
-    });
+  given(subject) {
+    return createStore<IState, any, any, any>(subject, this.initialValues)
   }
+
 }
 
 export class When<
   IState,
   IStore extends Store<IState, AnyAction>
-> {
-  name: string;
+> extends TesterantoWhen<IStore> {
+
   actionCreator: IActionCreate;
-  payload: object;
+
+  when(store: IStore, action: AnyAction) {
+    store.dispatch(action);
+  }
+
   constructor(
     name: string,
     actionCreator: IActionCreate,
     payload: any = {}
   ) {
-    this.name = name;
+    super(name, actionCreator, payload);
     this.actionCreator = actionCreator;
-    this.payload = payload;
   }
 
-  run(store: IStore) {
-    console.log(" When:", this.name)
-    store.dispatch(this.actionCreator(this.payload))
-  }
 };
 
 export class Then<
+  IState,
   ISelected,
-  IStore extends Store<any, AnyAction>
-> {
-  name: string;
-  selector: Selector<any, ISelected>;
-  callback: (val: ISelected) => void;
+  IStore extends Store<IState, AnyAction>
+> extends TesterantoThen<ISelected> {
+
+  selector: Selector<IState, ISelected>;
 
   constructor(
     name: string,
-    selector: Selector<any, ISelected>,
-    callback: (val: ISelected) => void
+    callback: (val: ISelected) => any,
+    selector: Selector<IState, ISelected>,
+
   ) {
-    this.name = name;
-    this.selector = selector;
-    this.callback = callback;
+    super(name, callback);
+    this.selector = selector
   }
 
-  run(store: IStore) {
-    console.log(" Then:", this.name)
-    this.callback(this.selector(store.getState()))
+  then(store: IStore): ISelected {
+    return this.selector(store.getState());
   }
+
 };

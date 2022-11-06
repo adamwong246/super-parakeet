@@ -6,32 +6,41 @@ import { Given, When, Then, Suite } from "../testeranto/react";
 
 import LoginPage from "../pages/LoginPage";
 
+const ReactSuite = (
+  description: string,
+  component: () => JSX.Element,
+  givens: any[]
+) => new Suite(
+  description,
+  component,
+  givens
+);
+
 const GivenAnEmptyState = (
   feature: string,
-  whens: When[],
+  whens: When<never, () => JSX.Element>[],
   thens: Then[]
 ) => new Given(
   `the state is empty`,
   whens,
   thens,
-  {},
   feature
 );
 
 const GivenAStateWithEmail = (
   feature: string,
   email: string,
-  whens: When[],
+  whens: When<never, () => JSX.Element>[],
   thens: Then[]
 ) => new Given(
   `the email is already ${email}`,
   whens,
   thens,
+  feature,
   {
     email,
     password: ""
   },
-  feature
 );
 
 const WhenTheLoginIsSubmitted = () =>
@@ -78,7 +87,8 @@ const ThenThereIsNotAnEmailError = () =>
     )
   );
 
-const suite = new Suite(`testing a function which returns a JSX.Element`, [
+
+const suite = ReactSuite(`testing a function which returns a JSX.Element`, LoginPage, [
 
   GivenAnEmptyState(`Set the email and check the email`, [
     WhenTheEmailIsSetTo("adam@email.com"),
@@ -109,7 +119,8 @@ const suite = new Suite(`testing a function which returns a JSX.Element`, [
     ThenThereIsAnEmailError()
   ]),
 
-], LoginPage);
+
+]);
 
 export default () => {
   suite.run();

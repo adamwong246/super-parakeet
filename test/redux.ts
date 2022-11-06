@@ -12,10 +12,14 @@ const actions = core.app.actions;
 type IStore = Store<IState, AnyAction>;
 
 const ReduxSuite = (
-  name: string,
-  givens: Given<IState, IStore>[],
-  reducer: Reducer,
-) => new Suite<IState, Reducer, IStore>(name, givens, reducer);
+  description: string,
+  reducer: Reducer<IState, AnyAction>,
+  givens: any[]
+) => new Suite(
+  description,
+  reducer,
+  givens
+);
 
 const GivenAnEmptyState = (
   feature: string,
@@ -78,7 +82,7 @@ function ThenThePasswordIsNot(password: string) {
   })
 };
 
-const suite = ReduxSuite('testing only the redux store', [
+const suite = ReduxSuite('testing only the redux store', core.app.reducer, [
   GivenAnEmptyState(`Set the email and check the email`, [
     WhenTheEmailIsSetTo("adam@email.com"),
   ], [
@@ -107,7 +111,7 @@ const suite = ReduxSuite('testing only the redux store', [
     ThenThereIsAnEmailError()
   ]),
 
-], core.app.reducer);
+]);
 
 export default () => {
   suite.run();

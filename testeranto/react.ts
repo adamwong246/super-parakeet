@@ -1,44 +1,35 @@
 import renderer, { act, ReactTestRenderer } from 'react-test-renderer';
 
-export class Suite<IElement extends () => JSX.Element> {
-  name: string;
-  givens: Given[];
-  element: IElement;
-  constructor(
-    name: string,
-    givens: Given[],
-    element: IElement,
-  ) {
-    this.name = name;
-    this.givens = givens;
-    this.element = element;
-  }
+import { TesterantoSuite } from './index';
 
-  run() {
-    console.log("\nSuite:", this.name)
-    this.givens.forEach((given) => {
-      given.run(this.element);
-    })
-  }
+
+export class Suite<
+  IElement extends () => JSX.Element,
+  IState,
+> extends TesterantoSuite<IState, IElement> {
 }
 
-export class Given {
+export class Given<
+  IState,
+  IElement extends () => JSX.Element
+> {
   name: string;
-  whens: When[];
+  whens: When<IState, IElement>[];
   thens: Then[];
-  initialProps: any;
   feature: string;
+  initialValues: IState;
   constructor(
     name: string,
-    whens: When[],
+    whens: When<IState, IElement>[],
     thens: Then[],
-    initialProps: any,
     feature: string,
+    initialValues: any = {}
+
   ) {
     this.name = name;
     this.whens = whens;
     this.thens = thens;
-    this.initialProps = initialProps;
+    this.initialValues = initialValues;
     this.feature = feature;
   }
 
@@ -53,38 +44,44 @@ export class Given {
   }
 }
 
-export class When {
+export class When<
+  IState,
+  IElement extends () => JSX.Element
+> {
   name: string;
-  action: (component: renderer.ReactTestRenderer) => void;
+  actionCreator: (x: ReactTestRenderer) => any;
+  payload: object;
   constructor(
     name: string,
-    action: (component: renderer.ReactTestRenderer) => void,
-
+    actionCreator: (x: ReactTestRenderer) => any,
+    payload: any = {}
   ) {
     this.name = name;
-    this.action = action;
+    this.actionCreator = actionCreator;
+    this.payload = payload;
   }
 
   run(component: ReactTestRenderer) {
     console.log(" When:", this.name)
-    act(() => this.action(component));
-
+    act(() => this.actionCreator(component));
   }
 };
 
 export class Then {
   name: string;
-  assertion: (component: renderer.ReactTestRenderer) => any;
+  callback: (storeState: ReactTestRenderer) => void;
+
   constructor(
     name: string,
-    assertion: (component: renderer.ReactTestRenderer) => any,
+    callback: (val: ReactTestRenderer) => void
   ) {
     this.name = name;
-    this.assertion = assertion;
+    this.callback = callback;
   }
 
   run(component: ReactTestRenderer) {
     console.log(" Then:", this.name)
-    this.assertion(component);
+    this.callback(component);
   }
+
 };
