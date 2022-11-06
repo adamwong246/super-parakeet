@@ -5,16 +5,19 @@ import { ILoginPageError, ILoginPageSelection } from "./pages/LoginPage";
 export type IStoreState = {
   password: string;
   email: string;
+  error: ILoginPageError;
 };
 
 export const loginApp = createSlice<IStoreState, {
-  setPassword: (a, b) => void,
-  setEmail: (a, b) => void,
+  setPassword: (s: IStoreState, b) => void,
+  setEmail: (s: IStoreState, b) => void,
+  signIn: (s: IStoreState) => void,
 }>({
   name: "login app",
   initialState: {
     password: "",
     email: "",
+    error: 'no_error'
   },
   reducers: {
     setPassword: (state, action) => {
@@ -23,6 +26,9 @@ export const loginApp = createSlice<IStoreState, {
     setEmail: (state, action) => {
       state.email = action.payload;
     },
+    signIn: (state) => {
+      state.error = checkForErrors(state)
+    }
   },
 });
 
@@ -43,17 +49,16 @@ const checkForErrors = (storeState: IStoreState): ILoginPageError => {
   if (!validateEmail(storeState.email)) {
     return 'invalidEmail'
   }
-  if (storeState.password === "password" && storeState.email === "adam@email.com") {
+  if (storeState.password !== "password" && storeState.email !== "adam@email.com") {
     return 'credentialFail';
   }
-  return;
+  return 'no_error';
 };
 
 const loginPageSelection = createSelector<[(IStoreState) => any], ILoginPageSelection>([selectRoot], (root: IStoreState) => {
   return {
     ...root,
-    error: checkForErrors(root),
-    disableSubmit: root.email == "" && root.password == ""
+    disableSubmit: root.email == "" || root.password == ""
   }
 });
 

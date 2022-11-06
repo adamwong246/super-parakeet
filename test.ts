@@ -11,13 +11,13 @@ const actions = core.app.actions;
 const store = core.store;
 
 const GivenAnEmptyState = (whens: When[], thens: Then<ILoginPageSelection>[]) => new Given(
-  `The state is emptuy`,
+  `the state is empty`,
   whens, thens,
   core.app.getInitialState()
 );
 
 const GivenAStateWithEmail = (email: string, whens: When[], thens: Then<ILoginPageSelection>[]) => new Given(
-  `The email is already ${email}`,
+  `the email is already ${email}`,
   whens, thens,
   {
     email,
@@ -25,18 +25,39 @@ const GivenAStateWithEmail = (email: string, whens: When[], thens: Then<ILoginPa
   }
 );
 
-const WhenTheEmailIsSetTo = (email: string) => new When(`the email is set to ${email}`, actions.setEmail, email);
-const ThenTheEmailIs = (email: string) => new Then<ILoginPageSelection>(`The email is ${email}`, selector, (selection) => {
+const WhenTheEmailIsSetTo = (email: string) => new When(`the email is set to "${email}"`, actions.setEmail, email);
+const WhenThePasswordIsSetTo = (password: string) => new When(`the password is set to "${password}"`, actions.setPassword, password);
+
+const ThenTheEmailIs = (email: string) => new Then<ILoginPageSelection>(`the email is "${email}"`, selector, (selection) => {
   assert.equal(selection.email, email);
 });
-const ThenTheEmailIsNot = (email: string) => new Then<ILoginPageSelection>(`The email is not ${email}`, selector, (selection) => {
+const ThenTheEmailIsNot = (email: string) => new Then<ILoginPageSelection>(`the email is not "${email}"`, selector, (selection) => {
   assert.notEqual(selection.email, email);
+});
+const ThenThereIsAnEmailError = () => new Then<ILoginPageSelection>(`there should be an email error`, selector, (selection) => {
+  assert.equal(selection.error, 'invalidEmail');
 });
 const ThenThereIsNotAnEmailError = () => new Then<ILoginPageSelection>(`there should not be an email error`, selector, (selection) => {
   assert.notEqual(selection.error, 'invalidEmail');
 });
+const ThenTheSubmitButtonShouldBeEnabled = () => new Then<ILoginPageSelection>(`the submit button should be enabled`, selector, (selection) => {
+  assert(!selection.disableSubmit);
+});
+const ThenTheSubmitButtonShouldNotBeEnabled = () => new Then<ILoginPageSelection>(`the submit button should not be enabled`, selector, (selection) => {
+  assert(selection.disableSubmit);
+});
+const ThenThePasswordIs = (password: string) => new Then<ILoginPageSelection>(`the password is "${password}"`, selector, (selection) => {
+  assert.equal(selection.password, password);
+});
+function ThenThePasswordIsNot(password: string) {
+  return new Then<ILoginPageSelection>(`the password is not "${password}"`, selector, (selection) => {
+    assert.notEqual(selection.password, password);
+  })
+};
 
-new Suite('my first test suite', [
+const WhenTheLoginIsSubmitted = () => new When(`the login form is submitted`, actions.signIn);
+
+new Suite('testing the Login App', [
   GivenAnEmptyState([
     WhenTheEmailIsSetTo("adam@email.com"),
   ], [
@@ -45,18 +66,67 @@ new Suite('my first test suite', [
 
   GivenAStateWithEmail("wade@rpc", [
     WhenTheEmailIsSetTo("adam@email.com"),
+    WhenThePasswordIsSetTo("secret"),
   ], [
     ThenTheEmailIsNot("wade@rpc"),
+    ThenThePasswordIs("secret"),
+    ThenThePasswordIsNot("idk"),
   ]),
 
 
-  // GivenAnEmptyState([
-  //   WhenTheEmailIsSetTo("adam"),
-  // ], [
-  //   ThenThereIsNotAnEmailError()
-  // ]),
+  GivenAnEmptyState([
+    WhenTheEmailIsSetTo("adam")
+  ], [
+    ThenThereIsNotAnEmailError()
+  ]),
+
+  GivenAnEmptyState([
+    WhenTheEmailIsSetTo("adam"),
+    WhenThePasswordIsSetTo("adam"),
+  ], [
+    ThenTheSubmitButtonShouldBeEnabled()
+  ]),
+
+
+  GivenAnEmptyState([
+    WhenTheEmailIsSetTo("adam"),
+    WhenThePasswordIsSetTo(""),
+  ], [
+    ThenTheSubmitButtonShouldNotBeEnabled()
+  ]),
+
+
+  GivenAnEmptyState([
+    WhenTheEmailIsSetTo(""),
+    WhenThePasswordIsSetTo("something"),
+  ], [
+    ThenTheSubmitButtonShouldNotBeEnabled()
+  ]),
+
+
+  GivenAnEmptyState([
+    WhenTheEmailIsSetTo("adam")
+  ], [
+    ThenTheSubmitButtonShouldNotBeEnabled()
+  ]),
+
+
+  GivenAnEmptyState([
+    WhenThePasswordIsSetTo("something"),
+  ], [
+    ThenTheSubmitButtonShouldNotBeEnabled()
+  ]),
+
+  GivenAnEmptyState([
+    WhenTheEmailIsSetTo("adam"),
+    WhenThePasswordIsSetTo("adam"),
+    WhenTheLoginIsSubmitted()
+  ], [
+    ThenThereIsAnEmailError(),
+    ThenTheSubmitButtonShouldBeEnabled()
+  ]),
 
 
 ], core.app.reducer).run();
 
-console.log("tests are done!")
+console.log("\ntests are done!\n")

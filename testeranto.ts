@@ -17,7 +17,7 @@ export class Suite {
   }
 
   run() {
-    console.log("Suite", this.name)
+    console.log("\nSuite:", this.name)
     this.givens.forEach((g) => {
       g.run(this.reducer);
     })
@@ -38,7 +38,7 @@ export class Given {
   }
 
   run(reducer: IReducer) {
-    console.log("- Given", this.name)
+    console.log("\n- Given:\t", this.name)
     const store = createStore<IState, any, any, any>(reducer, this.initialValues);
 
     this.whens.forEach((when) => {
@@ -66,7 +66,7 @@ export class When {
   }
 
   run(store: IStore) {
-    console.log("-- When", this.name)
+    console.log("-- When:\t", this.name)
     store.dispatch(this.actionCreator(this.payload))
   }
 };
@@ -87,7 +87,28 @@ export class Then<T> {
   }
 
   run(store: IStore) {
-    console.log("--- Then", this.name)
+    console.log("--- Then:\t", this.name)
     this.callback(this.selector(store.getState()))
   }
 };
+
+// export class Then2<T> {
+//   name: string;
+//   selector: Selector<any, T>;
+//   callback: (val: T) => void;
+
+//   constructor(
+//     selector: Selector<any, T>,
+//     callback: (val: T) => void
+//   ) {
+//     console.log((new Error()).stack || "");
+//     this.name = (((new Error()).stack || "").split("\n")[2].trim().split(" ")[1]);
+//     this.selector = selector;
+//     this.callback = callback;
+//   }
+
+//   run(store: IStore) {
+//     console.log("--- Then2:\t", this.name)
+//     this.callback(this.selector(store.getState()))
+//   }
+// };

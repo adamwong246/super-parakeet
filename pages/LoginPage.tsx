@@ -7,7 +7,7 @@ const selector = core.select.loginPageSelection;
 const actions = core.app.actions;
 const store = core.store;
 
-export type ILoginPageError = 'invalidEmail' | `credentialFail` | void;
+export type ILoginPageError = 'invalidEmail' | `credentialFail` | 'no_error';
 
 export type ILoginPageSelection = {
   password: string;
@@ -41,9 +41,18 @@ function LoginPage() {
 
       <br />
 
-      <button disabled={selection.disableSubmit} onClick={(event) => { event.preventDefault(); }} >Sign In</button>
+      <button disabled={selection.disableSubmit} onClick={(event) => {
+        store.dispatch(actions.signIn());
+        event.preventDefault();
+      }} >Sign In</button>
 
     </form>
+
+    <pre>
+      {
+        JSON.stringify(selection, null, 2)
+      }
+    </pre>
 
   </div>
 }
