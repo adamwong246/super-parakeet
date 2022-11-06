@@ -1,8 +1,15 @@
 @font-face {
   font-family: Brandon Grotesque;
-  src: url(/font/brandongrotesque-regular-webfont.8bec5a80.woff2) format("woff2");
+  src: url(/_next/static/media/brandongrotesque-regular-webfont.8bec5a80.woff2) format("woff2"), url(/_next/static/media/brandongrotesque-regular-webfont.4011e4f0.woff) format("woff");
   font-weight: 300;
   font-style: normal
+}
+
+@font-face {
+  font-family: Brandon Grotesque;
+  src: url(/_next/static/media/Brandon_bld.5a229bf8.otf) format("opentype");
+  font-weight: 700;
+  font-style: bold
 }
 
 @-webkit-keyframes backgroundTransition {

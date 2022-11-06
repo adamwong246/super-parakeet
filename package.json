@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.6",
+    "@types/react-test-renderer": "^18.0.0",
     "assert": "^2.0.0",
     "buffer": "^6.0.3",
     "chai": "^4.3.6",
@@ -27,6 +28,7 @@
     "react": "latest",
     "react-dom": "latest",
     "react-redux": "^8.0.4",
+    "react-test-renderer": "^18.2.0",
     "sass": "^1.56.0",
     "sass-loader": "13.1.0",
     "style-loader": "^3.3.1",

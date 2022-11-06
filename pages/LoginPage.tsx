@@ -16,18 +16,17 @@ export type ILoginPageSelection = {
   disableSubmit: boolean;
 };
 
-function LoginPage() {
-
+export function LoginPage() {
   const selection = useSelector(selector);
 
-  return <div>
+  return (<div>
     <h2>Welcome back!</h2>
     <p>Sign in and get to it.</p>
 
     <form>
       <input type="email" value={selection.email} onChange={(e) => store.dispatch(actions.setEmail(e.target.value))} />
 
-      <p>
+      <p id="invalid-email-warning" className="warning">
         {selection.error === 'invalidEmail' && "Something isn’t right. Please double check your email format"}
       </p>
 
@@ -42,8 +41,9 @@ function LoginPage() {
       <br />
 
       <button disabled={selection.disableSubmit} onClick={(event) => {
+
         store.dispatch(actions.signIn());
-        event.preventDefault();
+
       }} >Sign In</button>
 
     </form>
@@ -54,8 +54,10 @@ function LoginPage() {
       }
     </pre>
 
-  </div>
+  </div>);
 }
+
+// export const LoginPage;
 
 export default function () {
   return <Provider store={store}>

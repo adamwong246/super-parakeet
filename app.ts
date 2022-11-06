@@ -55,7 +55,7 @@ const checkForErrors = (storeState: IStoreState): ILoginPageError => {
   return 'no_error';
 };
 
-const loginPageSelection = createSelector<[(IStoreState) => any], ILoginPageSelection>([selectRoot], (root: IStoreState) => {
+const loginPageSelection = createSelector<[(storeState: IStoreState) => IStoreState], ILoginPageSelection>([selectRoot], (root: IStoreState) => {
   return {
     ...root,
     disableSubmit: root.email == "" || root.password == ""

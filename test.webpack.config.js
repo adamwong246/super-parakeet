@@ -2,7 +2,7 @@ const isProduction = process.env.NODE_ENV == "production";
 
 const config = {
   target: 'node',
-  entry: "./test.ts",
+  entry: "./test/index.ts",
   experiments: {
     topLevelAwait: true
   },
