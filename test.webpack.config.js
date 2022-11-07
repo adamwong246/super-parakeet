@@ -13,6 +13,10 @@ const config = {
     unknownContextCritical: false,
     rules: [
       {
+        test: /\.node$/,
+        loader: "node-loader",
+      },
+      {
         test: /\.(ts|tsx)$/i,
         loader: "ts-loader",
         exclude: ["/node_modules/"],

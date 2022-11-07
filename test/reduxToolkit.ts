@@ -51,7 +51,6 @@ const GivenAStateWithEmail = (
     ...core.app.getInitialState(),
     email
   },
-
 );
 const WhenTheLoginIsSubmitted = () =>
   new When(`the login form is submitted`, actions.signIn);

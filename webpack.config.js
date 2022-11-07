@@ -22,6 +22,12 @@ const config = {
     },
   },
 
+  plugins: [
+    // new webpack.IgnorePlugin(/canvas/, /jsdom$/)
+  ],
+
+  // externals: { canvas: {} },
+
   module: {
     unknownContextCritical: false,
     rules: [
@@ -37,6 +43,9 @@ const config = {
           "sass-loader",
         ],
       },
+
+
+
 
       {
         test: /\.(ts|tsx)$/i,
@@ -64,7 +73,7 @@ const config = {
     ],
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js", ".mjs"]
+    extensions: [".tsx", ".ts", ".js", ".mjs", ".testeranto.ts"]
   }
 };
 

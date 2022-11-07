@@ -1,8 +1,10 @@
 import ReactDom from "react-dom";
 import React from "react";
 
-const ReactRoot = () =>
-  <p>hello world</p>
+import LoginPage from "../pages/LoginPage";
 
-document.addEventListener("DOMContentLoaded", (event) =>
-  ReactDom.render(<ReactRoot />, document.getElementById("root")));
+
+document.addEventListener("DOMContentLoaded", async (event) => {
+  await ReactDom.render(<LoginPage />, document.getElementById("root"));
+});
+

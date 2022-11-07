@@ -82,10 +82,9 @@ export abstract class TesterantoWhen<
 
   run(store: IStore) {
     console.log(" When:", this.name);
-    this.when(
-      store,
-      this.actionCreator(this.payload)
-    )
+    const action = this.actionCreator;
+    action(store);
+    this.when(store, action)
   }
 };
 
@@ -110,3 +109,66 @@ export abstract class TesterantoThen<
     this.callback(this.then(store))
   }
 };
+
+export class Suite<Klass> extends TesterantoSuite<Klass, Klass> { };
+
+export class Given<Klass> extends TesterantoGiven<Klass, any> {
+  thing: Klass;
+
+  constructor(
+    name: string,
+    whens: When<Klass>[],
+    thens: Then<Klass>[],
+    feature: string,
+    thing: Klass,
+  ) {
+    super(name, whens, thens, feature);
+    this.thing = thing;
+  }
+
+  given() {
+    return this.thing;
+  }
+}
+
+export class When<Klass> extends TesterantoWhen<Klass> {
+  constructor(
+    name: string,
+    actionCreator: (x: Klass) => any,
+    payload: any = {}
+  ) {
+    super(name, actionCreator, payload);
+  }
+
+  when(thing: Klass) {
+    return thing;
+  }
+
+};
+
+export class Then<Klass> extends TesterantoThen<Klass> {
+  constructor(
+    name: string,
+    callback: (thing: Klass) => void
+  ) {
+    super(name, callback);
+  }
+
+  then(rectangle: Klass) {
+    return rectangle;
+  }
+};
+
+export const TesterantoFactory = {
+  Suite: Suite,
+  Given: Given,
+  When: When,
+  Then: Then,
+}
+
+export type ITesterantoFactory<Klass> = {
+  Suite: Suite<Klass>;
+  Given: Given<Klass>;
+  When: When<Klass>;
+  Then: Then<Klass>;
+}

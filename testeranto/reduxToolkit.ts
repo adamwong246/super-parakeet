@@ -43,11 +43,8 @@ export class When<
   IState,
   IStore extends Store<IState, AnyAction>
 > extends TesterantoWhen<IStore> {
-
-  actionCreator: IActionCreate;
-
-  when(store: IStore, action: AnyAction) {
-    store.dispatch(action);
+  when(store) {
+    store.dispatch(this.actionCreator(this.payload));
   }
 
   constructor(
@@ -56,7 +53,6 @@ export class When<
     payload: any = {}
   ) {
     super(name, actionCreator, payload);
-    this.actionCreator = actionCreator;
   }
 
 };
