@@ -4,7 +4,7 @@
 import assert from "assert";
 import { Store, AnyAction, Slice, Reducer } from "@reduxjs/toolkit";
 
-import { Given, When, Then, Suite } from "../trash/reduxToolkit2";
+import { Given, When, Then, Suite } from "./reduxToolkit.test";
 
 import core, { IStoreState as IState } from "../src/app";
 import { ILoginPageSelection } from "../pages/LoginPage";

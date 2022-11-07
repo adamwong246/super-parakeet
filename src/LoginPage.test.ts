@@ -2,7 +2,7 @@
 
 import assert from "assert";
 
-import { Given, When, Then, Suite } from "../trash/react2";
+import { Given, When, Then, Suite } from "./react.test";
 
 import LoginPage from "../pages/LoginPage";
 
