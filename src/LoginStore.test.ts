@@ -4,22 +4,12 @@
 import assert from "assert";
 import { Store, AnyAction, Reducer } from "redux";
 
-import { Given, When, Then, Suite } from "../testeranto/redux";
+import { Given, When, Then, Suite } from "./redux.test";
 
-import core, { IStoreState as IState } from "../app";
+import core, { IStoreState as IState } from "../src/app";
 
 const actions = core.app.actions;
 type IStore = Store<IState, AnyAction>;
-
-const ReduxSuite = (
-  description: string,
-  reducer: Reducer<IState, AnyAction>,
-  givens: any[]
-) => new Suite(
-  description,
-  reducer,
-  givens
-);
 
 const GivenAnEmptyState = (
   feature: string,
@@ -82,37 +72,59 @@ function ThenThePasswordIsNot(password: string) {
   })
 };
 
-const suite = ReduxSuite('testing only the redux store', core.app.reducer, [
-  GivenAnEmptyState(`Set the email and check the email`, [
-    WhenTheEmailIsSetTo("adam@email.com"),
-  ], [
-    ThenTheEmailIs("adam@email.com"),
-  ]),
+const LoginStoreTesteranto = {
+  Suite: {
+    default: (
+      description: string,
+      reducer: Reducer<IState, AnyAction>,
+      givens: any[]
+    ) => new Suite(
+      description,
+      reducer,
+      givens
+    )
+  },
+  Given: {},
+  When: {},
+  Then: {
 
-  GivenAStateWithEmail(`Set the email by initial state, then set the email normally, and then check some other stuff`, "wade@rpc", [
-    WhenTheEmailIsSetTo("adam@email.com"),
-    WhenThePasswordIsSetTo("secret"),
-  ], [
-    ThenTheEmailIsNot("wade@rpc"),
-    ThenThePasswordIs("secret"),
-    ThenThePasswordIsNot("idk"),
-  ]),
+  }
+}
 
-  GivenAnEmptyState("Don't show an email error just because the email does not validate", [
-    WhenTheEmailIsSetTo("adam")
-  ], [
-    ThenThereIsNotAnEmailError()
-  ]),
-
-  GivenAnEmptyState("Do show an email error after submitting", [
-    WhenTheEmailIsSetTo("adam"),
-    WhenTheLoginIsSubmitted()
-  ], [
-    ThenThereIsAnEmailError()
-  ]),
-
-]);
+const LoginStoreSuite = LoginStoreTesteranto.Suite.default;
+// const Given = LoginStoreTesteranto.Given;
+// const When = LoginStoreTesteranto.When;
+// const Then = LoginStoreTesteranto.Then;
 
 export default () => {
-  suite.run();
+  LoginStoreSuite('testing only the redux store', core.app.reducer, [
+    GivenAnEmptyState(`Set the email and check the email`, [
+      WhenTheEmailIsSetTo("adam@email.com"),
+    ], [
+      ThenTheEmailIs("adam@email.com"),
+    ]),
+
+    GivenAStateWithEmail(`Set the email by initial state, then set the email normally, and then check some other stuff`, "wade@rpc", [
+      WhenTheEmailIsSetTo("adam@email.com"),
+      WhenThePasswordIsSetTo("secret"),
+    ], [
+      ThenTheEmailIsNot("wade@rpc"),
+      ThenThePasswordIs("secret"),
+      ThenThePasswordIsNot("idk"),
+    ]),
+
+    GivenAnEmptyState("Don't show an email error just because the email does not validate", [
+      WhenTheEmailIsSetTo("adam")
+    ], [
+      ThenThereIsNotAnEmailError()
+    ]),
+
+    GivenAnEmptyState("Do show an email error after submitting", [
+      WhenTheEmailIsSetTo("adam"),
+      WhenTheLoginIsSubmitted()
+    ], [
+      ThenThereIsAnEmailError()
+    ]),
+
+  ]).run();
 }

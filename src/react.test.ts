@@ -1,6 +1,6 @@
 import renderer, { act, ReactTestRenderer } from 'react-test-renderer';
 
-import { TesterantoSuite } from './index';
+import { TesterantoSuite } from '../testeranto/index';
 
 export class Suite<
   IElement extends () => JSX.Element,

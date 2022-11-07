@@ -1,4 +1,5 @@
 import assert from "assert";
+import React from "react";
 import {
   Suite,
   Given,
@@ -6,34 +7,23 @@ import {
   Then,
 } from "../testeranto/index";
 
-import Rectangle from "./Rectangle";
+import type { ICardProps } from "./Card";
+import { Card } from "./Card";
 
 export default {
   Suite: {
     default: (
       description: string,
-      rectangle: Rectangle,
+      card: ({ title, paragraph }: ICardProps) => JSX.Element,
       givens: any[]
-    ) => new Suite<Rectangle>(description, rectangle, givens)
+    ) => new Suite(description, card, givens)
   },
   Given: {
-    WidthOfOneAndHeightOfOne: (
-      feature: string,
-      whens: When<Rectangle>[],
-      thens: Then<Rectangle>[]
-    ) => new Given(`width of 1 and height of 1`, whens, thens, feature, new Rectangle(1, 1)),
-    WidthAndHeightOf: (
-      width: number,
-      height: number,
-      feature: string,
-      whens: When<Rectangle>[],
-      thens: Then<Rectangle>[]
-    ) => new Given(`width of "${width} and height of "${height}"`, whens, thens, feature, new Rectangle(height, width)),
     Default: (
       feature: string,
-      whens: When<Rectangle>[],
-      thens: Then<Rectangle>[]
-    ) => new Given(`default width and height`, whens, thens, feature, new Rectangle())
+      whens: When<ICardProps>[],
+      thens: Then<ICardProps>[]
+    ) => new Given(`default`, whens, thens, feature, React.createElement(Card({ title: "", paragraph: "" })))
   },
 
   When: {

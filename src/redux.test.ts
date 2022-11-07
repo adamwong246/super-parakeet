@@ -1,6 +1,7 @@
 
 import { createStore, Store, AnyAction, PreloadedState } from "redux";
-import { TesterantoSuite } from './index';
+import { TesterantoSuite } from '../testeranto/index';
+
 
 export class Suite<
   IStore extends Store<IState, AnyAction>,

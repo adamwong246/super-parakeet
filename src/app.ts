@@ -1,6 +1,6 @@
 import { createSelector, createSlice, createStore, Store, combineReducers, ActionCreatorWithPayload, ActionCreatorWithoutPayload } from "@reduxjs/toolkit";
 
-import { ILoginPageError, ILoginPageSelection } from "./pages/LoginPage";
+import { ILoginPageError, ILoginPageSelection } from "../pages/LoginPage";
 
 export type IStoreState = {
   password: string;

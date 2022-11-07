@@ -2,7 +2,7 @@
 
 import assert from "assert";
 
-import { Given, When, Then, Suite } from "../testeranto/react";
+import { Given, When, Then, Suite } from "../trash/react2";
 
 import LoginPage from "../pages/LoginPage";
 
@@ -10,11 +10,7 @@ const ReactSuite = (
   description: string,
   component: () => JSX.Element,
   givens: any[]
-) => new Suite(
-  description,
-  component,
-  givens
-);
+) => new Suite(description, component, givens);
 
 const GivenAnEmptyState = (
   feature: string,

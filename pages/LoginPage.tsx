@@ -1,7 +1,7 @@
 import React from "react";
 import { Provider, useSelector } from "react-redux";
 
-import core from "../app";
+import core from "../src/app";
 
 const selector = core.select.loginPageSelection;
 const actions = core.app.actions;

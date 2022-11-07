@@ -4,9 +4,9 @@
 import assert from "assert";
 import { Store, AnyAction, Slice, Reducer } from "@reduxjs/toolkit";
 
-import { Given, When, Then, Suite } from "../testeranto/reduxToolkit";
+import { Given, When, Then, Suite } from "../trash/reduxToolkit2";
 
-import core, { IStoreState as IState } from "../app";
+import core, { IStoreState as IState } from "../src/app";
 import { ILoginPageSelection } from "../pages/LoginPage";
 
 const selector = core.select.loginPageSelection;
@@ -103,85 +103,83 @@ function ThenThePasswordIsNot(password: string) {
   }, selector)
 };
 
-const suite = ReduxToolkitSuite('testing redux store + reselect selectors', reducer, [
-  GivenAnEmptyState(`Set the email and check the email`, [
-    WhenTheEmailIsSetTo("adam@email.com"),
-  ], [
-    ThenTheEmailIs("adam@email.com"),
-  ]),
-
-  GivenAStateWithEmail(`Set the email by initial state, then set the email normally, and then check some other stuff`, "wade@rpc", [
-    WhenTheEmailIsSetTo("adam@email.com"),
-    WhenThePasswordIsSetTo("secret"),
-  ], [
-    ThenTheEmailIsNot("wade@rpc"),
-    ThenThePasswordIs("secret"),
-    ThenThePasswordIsNot("idk"),
-  ]),
-
-
-  GivenAnEmptyState("Don't show an email error just because the email does not validate", [
-    WhenTheEmailIsSetTo("adam")
-  ], [
-    ThenThereIsNotAnEmailError()
-  ]),
-
-  GivenAnEmptyState(`Put some data in both fields to enable the submit button. Email does not need to be valid!`, [
-    WhenTheEmailIsSetTo("adam"),
-    WhenThePasswordIsSetTo("adam"),
-  ], [
-    ThenTheSubmitButtonShouldBeEnabled()
-  ]),
-
-
-  GivenAnEmptyState(`Don't enable the submit button if password is blank`, [
-    WhenTheEmailIsSetTo("adam"),
-    WhenThePasswordIsSetTo(""),
-  ], [
-    ThenTheSubmitButtonShouldNotBeEnabled()
-  ]),
-
-
-  GivenAnEmptyState(`Don't enable the submit button if email is blank`, [
-    WhenTheEmailIsSetTo(""),
-    WhenThePasswordIsSetTo("something"),
-  ], [
-    ThenTheSubmitButtonShouldNotBeEnabled()
-  ]),
-
-
-  GivenAnEmptyState(`Don't enable the submit button if you haven't entered a password`, [
-    WhenTheEmailIsSetTo("adam")
-  ], [
-    ThenTheSubmitButtonShouldNotBeEnabled()
-  ]),
-
-
-  GivenAnEmptyState(`Don't enable the submit button if you haven't entered an email`, [
-    WhenThePasswordIsSetTo("something"),
-  ], [
-    ThenTheSubmitButtonShouldNotBeEnabled()
-  ]),
-
-  GivenAnEmptyState(`Check for email validations only after you've pressed the submit button 1/2`, [
-    WhenTheEmailIsSetTo("adam"),
-  ], [
-    ThenThereIsNotAnEmailError(),
-    ThenTheSubmitButtonShouldNotBeEnabled()
-  ]),
-
-  GivenAnEmptyState(`Check for email validations only after you've pressed the submit button 2/2`, [
-    WhenTheEmailIsSetTo("adam"),
-    WhenThePasswordIsSetTo("adam"),
-    WhenTheLoginIsSubmitted()
-  ], [
-    ThenThereIsAnEmailError(),
-    ThenTheSubmitButtonShouldBeEnabled()
-  ]),
-
-
-]);
-
 export default () => {
-  suite.run();
+  ReduxToolkitSuite('testing redux store + reselect selectors', reducer, [
+    GivenAnEmptyState(`Set the email and check the email`, [
+      WhenTheEmailIsSetTo("adam@email.com"),
+    ], [
+      ThenTheEmailIs("adam@email.com"),
+    ]),
+
+    GivenAStateWithEmail(`Set the email by initial state, then set the email normally, and then check some other stuff`, "wade@rpc", [
+      WhenTheEmailIsSetTo("adam@email.com"),
+      WhenThePasswordIsSetTo("secret"),
+    ], [
+      ThenTheEmailIsNot("wade@rpc"),
+      ThenThePasswordIs("secret"),
+      ThenThePasswordIsNot("idk"),
+    ]),
+
+
+    GivenAnEmptyState("Don't show an email error just because the email does not validate", [
+      WhenTheEmailIsSetTo("adam")
+    ], [
+      ThenThereIsNotAnEmailError()
+    ]),
+
+    GivenAnEmptyState(`Put some data in both fields to enable the submit button. Email does not need to be valid!`, [
+      WhenTheEmailIsSetTo("adam"),
+      WhenThePasswordIsSetTo("adam"),
+    ], [
+      ThenTheSubmitButtonShouldBeEnabled()
+    ]),
+
+
+    GivenAnEmptyState(`Don't enable the submit button if password is blank`, [
+      WhenTheEmailIsSetTo("adam"),
+      WhenThePasswordIsSetTo(""),
+    ], [
+      ThenTheSubmitButtonShouldNotBeEnabled()
+    ]),
+
+
+    GivenAnEmptyState(`Don't enable the submit button if email is blank`, [
+      WhenTheEmailIsSetTo(""),
+      WhenThePasswordIsSetTo("something"),
+    ], [
+      ThenTheSubmitButtonShouldNotBeEnabled()
+    ]),
+
+
+    GivenAnEmptyState(`Don't enable the submit button if you haven't entered a password`, [
+      WhenTheEmailIsSetTo("adam")
+    ], [
+      ThenTheSubmitButtonShouldNotBeEnabled()
+    ]),
+
+
+    GivenAnEmptyState(`Don't enable the submit button if you haven't entered an email`, [
+      WhenThePasswordIsSetTo("something"),
+    ], [
+      ThenTheSubmitButtonShouldNotBeEnabled()
+    ]),
+
+    GivenAnEmptyState(`Check for email validations only after you've pressed the submit button 1/2`, [
+      WhenTheEmailIsSetTo("adam"),
+    ], [
+      ThenThereIsNotAnEmailError(),
+      ThenTheSubmitButtonShouldNotBeEnabled()
+    ]),
+
+    GivenAnEmptyState(`Check for email validations only after you've pressed the submit button 2/2`, [
+      WhenTheEmailIsSetTo("adam"),
+      WhenThePasswordIsSetTo("adam"),
+      WhenTheLoginIsSubmitted()
+    ], [
+      ThenThereIsAnEmailError(),
+      ThenTheSubmitButtonShouldBeEnabled()
+    ]),
+
+
+  ]).run();
 }

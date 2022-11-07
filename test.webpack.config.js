@@ -2,12 +2,13 @@ const isProduction = process.env.NODE_ENV == "production";
 
 const config = {
   target: 'node',
-  entry: "./test/index.ts",
+  entry: "./test.ts",
   experiments: {
     topLevelAwait: true
   },
   output: {
     filename: 'test.bundle.js',
+    libraryTarget: "umd"
   },
   module: {
     unknownContextCritical: false,
@@ -42,7 +43,10 @@ const config = {
     ],
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js", ".mjs"]
+    extensions: [
+      `.testeranto.ts`,
+      ".tsx", ".ts", ".js", ".mjs"
+    ]
   }
 };
 

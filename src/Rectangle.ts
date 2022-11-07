@@ -1,4 +1,4 @@
-export default class Rectangle {
+class Rectangle {
   height: number;
   width: number;
   constructor(height: number = 2, width: number = 2) {
@@ -18,3 +18,5 @@ export default class Rectangle {
     return (this.width * 2) + (this.height * 2);
   }
 };
+
+export default Rectangle;

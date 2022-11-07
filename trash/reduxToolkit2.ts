@@ -2,7 +2,7 @@
 import { ActionCreatorWithoutPayload, ActionCreatorWithPayload, AnyAction, PreloadedState, Reducer, Selector, Store } from "@reduxjs/toolkit";
 import { createStore } from "redux";
 
-import { TesterantoGiven, TesterantoSuite, TesterantoThen, TesterantoWhen } from "./index";
+import { TesterantoGiven, TesterantoSuite, TesterantoThen, TesterantoWhen } from "../testeranto/index";
 
 type IActionCreate = ActionCreatorWithoutPayload<string> | ActionCreatorWithPayload<any, string>;
 
