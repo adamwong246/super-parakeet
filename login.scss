@@ -1,0 +1,116 @@
+$desktop : 960px;
+$error : #c00;
+
+#page-login {
+  margin-bottom: 0;
+
+  &.login__container {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+
+    @media (min-width: #{$desktop}) {
+      width: 100%;
+      max-width: 100vw;
+      background-image: url(/rock-paper-coin-0034.jpg);
+      background-position: center center;
+      background-size: cover;
+    }
+
+    .login__form-wrapper {
+      background-color: #fff;
+      width: 100vw;
+      padding: 0 1.5rem;
+      margin: auto;
+
+      @media (min-width: #{$desktop}) {
+        width: 39.563rem;
+        padding: 1.25rem 8rem;
+        border-radius: 5px;
+        box-shadow: 30px 30px 60px 0 rgba(74, 74, 74, 0.25);
+        border: solid 1px rgba(207, 206, 207, 0.37);
+      }
+
+      .login__header {
+        text-align: left;
+
+        @media (min-width: #{$desktop}) {
+          text-align: center;
+        }
+      }
+
+      .login__subtext {
+        margin-top: 0.5rem;
+        text-align: left;
+
+        @media (min-width: #{$desktop}) {
+          text-align: center;
+        }
+      }
+
+      .login-field__email {
+        margin-top: 1.875rem;
+      }
+
+      .login-field__password {
+        margin-top: 0.875rem;
+      }
+
+      .login-link__reset-password {
+        cursor: pointer;
+
+        a {
+          display: block;
+          width: fit-content;
+          text-decoration: none;
+
+          &.a--right {
+            margin-left: auto;
+          }
+
+          &.a--black {
+            color: #000;
+          }
+
+          &.a--opacity-20 {
+            opacity: 0.2;
+          }
+        }
+      }
+
+      .login-button__submit {
+        margin-top: 2.5rem;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      #login-validation {
+        margin-top: 1.5rem;
+        display: flex;
+
+        svg {
+          height: 1.5rem;
+          width: 1.5rem;
+          fill: $error;
+        }
+
+        .login-validation__message {
+          margin-left: 0.5rem;
+        }
+      }
+
+      .login-link__signup {
+        text-align: center;
+        margin: 3.813rem 0.125rem 0 0.125rem;
+      }
+    }
+
+    #footer {
+      display: none;
+
+      @media (min-width: #{$desktop}) {
+        display: flex;
+      }
+    }
+  }
+}

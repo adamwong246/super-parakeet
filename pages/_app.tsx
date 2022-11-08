@@ -1,5 +1,6 @@
 import React from 'react'
 import '../style.scss'
+import '../login.scss'
 import LoginPage from './LoginPage'
 import ClonedComponent from './ClonedComponent'
 

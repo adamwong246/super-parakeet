@@ -111,7 +111,7 @@ export default () => {
       When.WidthIsSetTo(6),
     ], [
       Then.AreaIs(30),
-      Then.CircumferenceIs(22),
+      Then.CircumferenceIs(22)
     ]),
 
     Given.WidthOfOneAndHeightOfOne(`Check the area and circumference after publicly setting`, [
